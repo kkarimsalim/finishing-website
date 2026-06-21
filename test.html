@@ -1,0 +1,1741 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>عِمران — للتشطيبات والديكور والتصميم الداخلي</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Almarai:wght@300;400;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg-darker: #050505;
+    --bg-card: #141414;
+    --bg-card-hover: #1a1a1a;
+    --fg: #f5f5f5;
+    --fg-dim: #c0c0c0;
+    --muted: #6a6a6a;
+    --accent: #E5A93C; /* لون ذهبي/نحاسي يناسب التشطيبات */
+    --accent-bright: #FFC04D;
+    --accent-dim: #B3822E;
+    --accent-glow: rgba(229, 169, 60, 0.45);
+    --silver: #C8C8C8;
+    --silver-dim: #5a5a5a;
+    --border: #1f1f1f;
+    --border-light: #2a2a2a;
+  }
+  
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'Almarai', sans-serif;
+    overflow-x: hidden;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+  
+  /* Typography */
+  .font-display { font-family: 'Cairo', sans-serif; }
+  .font-heading { font-family: 'Almarai', sans-serif; }
+  .font-body { font-family: 'Almarai', sans-serif; }
+  .font-mono { font-family: 'JetBrains Mono', monospace; }
+  
+  /* Grain overlay */
+  .grain {
+    position: fixed;
+    inset: -10%;
+    pointer-events: none;
+    z-index: 200;
+    opacity: 0.08;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='250' height='250'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    mix-blend-mode: overlay;
+    will-change: transform;
+  }
+  
+  /* Section reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(48px);
+    transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: var(--delay, 0s);
+  }
+  .reveal.in-view { opacity: 1; transform: translateY(0); }
+  
+  .reveal-stagger > * {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .reveal-stagger.in-view > * {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-stagger.in-view > *:nth-child(1) { transition-delay: 0s; }
+  .reveal-stagger.in-view > *:nth-child(2) { transition-delay: 0.1s; }
+  .reveal-stagger.in-view > *:nth-child(3) { transition-delay: 0.2s; }
+  .reveal-stagger.in-view > *:nth-child(4) { transition-delay: 0.3s; }
+  .reveal-stagger.in-view > *:nth-child(5) { transition-delay: 0.4s; }
+  .reveal-stagger.in-view > *:nth-child(6) { transition-delay: 0.5s; }
+  
+  /* Hero reel */
+  .reel-frame {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+  }
+  .reel-frame.active { opacity: 1; }
+  .reel-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(80%) contrast(1.2) brightness(0.5);
+    transform: scale(1.06);
+  }
+  .reel-frame.active img {
+    animation: kenburns 9s ease-out forwards;
+  }
+  @keyframes kenburns {
+    0% { transform: scale(1.06) translate(0, 0); }
+    100% { transform: scale(1.2) translate(3%, -3%); }
+  }
+  
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: 
+      linear-gradient(180deg, rgba(10,10,10,0.92) 0%, rgba(10,10,10,0.45) 28%, rgba(10,10,10,0.55) 65%, rgba(10,10,10,0.98) 100%),
+      linear-gradient(270deg, rgba(10,10,10,0.85) 0%, rgba(10,10,10,0.2) 50%, rgba(10,10,10,0.5) 100%),
+      radial-gradient(ellipse at 75% 60%, rgba(229, 169, 60, 0.15) 0%, transparent 55%);
+  }
+  
+  /* Coach flip card */
+  .flip-card {
+    perspective: 1800px;
+    height: 580px;
+  }
+  .flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.9s cubic-bezier(0.4, 0.2, 0.2, 1);
+    transform-style: preserve-3d;
+  }
+  .flip-card:hover .flip-card-inner,
+  .flip-card.flipped .flip-card-inner {
+    transform: rotateY(-180deg);
+  }
+  .flip-face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    overflow: hidden;
+  }
+  .flip-back { transform: rotateY(-180deg); }
+  
+  /* Pulse */
+  @keyframes pulse-cta {
+    0%, 100% { 
+      box-shadow: 0 0 0 0 rgba(229, 169, 60, 0.65), 0 0 40px rgba(229, 169, 60, 0.3);
+    }
+    50% { 
+      box-shadow: 0 0 0 18px rgba(229, 169, 60, 0), 0 0 40px rgba(229, 169, 60, 0.3);
+    }
+  }
+  .pulse-btn { animation: pulse-cta 2.4s ease-out infinite; }
+  
+  /* Sticky bar */
+  .sticky-cta {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    transform: translateY(110%);
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: 90;
+  }
+  .sticky-cta.visible { transform: translateY(0); }
+  
+  /* Marquee */
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(50%); }
+  }
+  .marquee-track {
+    display: flex;
+    animation: marquee 38s linear infinite;
+    width: max-content;
+  }
+  
+  /* Carousel */
+  .story-track {
+    display: flex;
+    gap: 1.5rem;
+    cursor: grab;
+    user-select: none;
+    will-change: transform;
+    padding: 0 2rem;
+  }
+  .story-track.dragging {
+    cursor: grabbing;
+  }
+  .story-track * { pointer-events: none; }
+  .story-card {
+    flex: 0 0 auto;
+    width: 400px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    transition: border-color 0.4s, transform 0.4s;
+  }
+  .story-card:hover {
+    border-color: var(--accent);
+  }
+  
+  /* Image treatments */
+  .img-noir {
+    filter: grayscale(60%) contrast(1.2) brightness(0.8);
+    transition: filter 0.8s ease, transform 0.8s ease;
+  }
+  
+  /* Text effects */
+  .text-stroke {
+    -webkit-text-stroke: 1px var(--silver-dim);
+    color: transparent;
+  }
+  .text-stroke-accent {
+    -webkit-text-stroke: 1.5px var(--accent);
+    color: transparent;
+  }
+  
+  /* Underline animation */
+  .link-underline {
+    position: relative;
+    display: inline-block;
+  }
+  .link-underline::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: -3px;
+    width: 0;
+    height: 1px;
+    background: var(--accent);
+    transition: width 0.4s ease;
+  }
+  .link-underline:hover::after { width: 100%; }
+  
+  /* Number counter */
+  .number-display {
+    font-variant-numeric: tabular-nums;
+  }
+  
+  /* Input styles */
+  .form-input {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--border-light);
+    color: var(--fg);
+    padding: 0.85rem 0;
+    font-family: 'Almarai', sans-serif;
+    font-size: 1.15rem;
+    width: 100%;
+    transition: border-color 0.3s;
+  }
+  .form-input:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+  .form-input::placeholder {
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+  
+  /* Goal selector */
+  .goal-pill {
+    cursor: pointer;
+    padding: 0.55rem 1.1rem;
+    border: 1px solid var(--border-light);
+    background: transparent;
+    color: var(--fg-dim);
+    font-family: 'Almarai', sans-serif;
+    font-size: 0.85rem;
+    transition: all 0.3s;
+  }
+  .goal-pill:hover {
+    border-color: var(--silver-dim);
+    color: var(--fg);
+  }
+  .goal-pill.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #000;
+    font-weight: 700;
+  }
+  
+  /* Program card hover */
+  .program-card {
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .program-card:hover { transform: translateY(-8px); }
+  .program-card .program-img {
+    transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1), filter 0.8s;
+  }
+  .program-card:hover .program-img {
+    transform: scale(1.08);
+    filter: grayscale(20%) contrast(1.2) brightness(0.9);
+  }
+  .program-card:hover .program-number {
+    color: var(--accent);
+    -webkit-text-stroke-color: var(--accent);
+  }
+  
+  /* Corner notch decoration */
+  .notch-corner {
+    position: relative;
+  }
+  .notch-corner::before,
+  .notch-corner::after {
+    content: '';
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border: 1px solid var(--accent);
+    pointer-events: none;
+  }
+  .notch-corner::before {
+    top: -1px;
+    right: -1px;
+    border-left: none;
+    border-bottom: none;
+  }
+  .notch-corner::after {
+    bottom: -1px;
+    left: -1px;
+    border-right: none;
+    border-top: none;
+  }
+  
+  /* Rec indicator */
+  @keyframes rec-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+  .rec-dot {
+    animation: rec-blink 1.5s ease-in-out infinite;
+  }
+  
+  /* Custom scrollbar */
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: var(--bg-darker); }
+  ::-webkit-scrollbar-thumb { background: var(--accent-dim); }
+  ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+  
+  /* Toast */
+  .toast {
+    position: fixed;
+    top: 90px;
+    left: 24px;
+    background: var(--bg-card);
+    border: 1px solid var(--accent);
+    border-right: 3px solid var(--accent);
+    padding: 1rem 1.5rem;
+    z-index: 150;
+    transform: translateX(-120%);
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    max-width: 360px;
+  }
+  .toast.visible { transform: translateX(0); }
+  
+  /* Headline chars reveal */
+  .headline-line {
+    overflow: hidden;
+    display: block;
+  }
+  .headline-line span {
+    display: inline-block;
+    transform: translateY(110%);
+    transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .in-view .headline-line span { transform: translateY(0); }
+  .headline-line:nth-child(2) span { transition-delay: 0.1s; }
+  .headline-line:nth-child(3) span { transition-delay: 0.2s; }
+  
+  /* Section divider */
+  .section-marker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: 'Cairo', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .section-marker::before {
+    content: '';
+    width: 32px;
+    height: 2px;
+    background: var(--accent);
+  }
+  
+  /* Coach image overlay */
+  .coach-img-wrap {
+    position: relative;
+    height: 70%;
+    overflow: hidden;
+  }
+  .coach-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(80%) contrast(1.1) brightness(0.8);
+    transition: filter 0.6s, transform 0.8s;
+  }
+  .flip-card:hover .coach-img-wrap img,
+  .flip-card.flipped .coach-img-wrap img {
+    filter: grayscale(20%) contrast(1.1) brightness(0.9);
+  }
+  
+  /* Booking panel */
+  .booking-frame {
+    background: linear-gradient(135deg, rgba(229,169,60,0.04) 0%, transparent 50%, rgba(229,169,60,0.02) 100%);
+    border: 1px solid var(--border);
+    position: relative;
+  }
+  .booking-frame::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 60px;
+    height: 60px;
+    border-top: 2px solid var(--accent);
+    border-right: 2px solid var(--accent);
+  }
+  .booking-frame::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 60px;
+    border-bottom: 2px solid var(--accent);
+    border-left: 2px solid var(--accent);
+  }
+  
+  /* Subtle scan line */
+  .scan-line {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 3px,
+      rgba(0, 0, 0, 0.15) 3px,
+      rgba(0, 0, 0, 0.15) 4px
+    );
+    pointer-events: none;
+    z-index: 2;
+  }
+  
+  /* Background texture */
+  .bg-textured {
+    background-color: var(--bg);
+    background-image: 
+      radial-gradient(circle at 80% 30%, rgba(229, 169, 60, 0.05) 0%, transparent 40%),
+      radial-gradient(circle at 20% 70%, rgba(80, 80, 80, 0.06) 0%, transparent 40%),
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'><filter id='r'><feTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23r)' opacity='0.4'/></svg>");
+    background-blend-mode: normal, normal, overlay;
+  }
+  
+  /* Card hover light */
+  .info-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    transition: border-color 0.4s, background 0.4s;
+  }
+  .info-card:hover {
+    border-color: var(--accent-dim);
+    background: var(--bg-card-hover);
+  }
+  
+  /* Progress bar for hero */
+  .progress-bar {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--accent);
+    width: 0%;
+    transition: width 0.1s linear;
+  }
+  
+  /* Nav link */
+  .nav-link {
+    position: relative;
+    font-family: 'Almarai', sans-serif;
+    font-size: 1rem;
+    color: var(--fg-dim);
+    transition: color 0.3s;
+  }
+  .nav-link:hover { color: var(--fg); }
+  .nav-link::before {
+    content: '';
+    position: absolute;
+    right: -14px;
+    top: 50%;
+    transform: translateY(-50%) scaleY(0);
+    width: 4px;
+    height: 4px;
+    background: var(--accent);
+    transition: transform 0.3s;
+  }
+  .nav-link:hover::before { transform: translateY(-50%) scaleY(1); }
+  
+  @media (max-width: 768px) {
+    .flip-card { height: 480px; }
+    .story-card { width: 300px; }
+  }
+</style>
+</head>
+<body class="bg-textured">
+  <div class="grain" id="grain"></div>
+  
+  <header class="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-black/50 border-b border-white/5">
+    <div class="max-w-[1600px] mx-auto px-6 lg:px-10 py-4 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-3 group">
+        <div class="w-9 h-9 bg-[var(--accent)] flex items-center justify-center relative">
+          <i class="fas fa-compass-drafting text-black text-base"></i>
+          <div class="absolute -inset-1 border border-[var(--accent)] opacity-0 group-hover:opacity-100 transition-opacity"></div>
+        </div>
+        <div>
+          <div class="font-display font-bold text-2xl leading-none">عِمران</div>
+          <div class="font-mono text-[10px] text-[var(--muted)] mt-0.5">للتشطيبات والديكور</div>
+        </div>
+      </a>
+      
+      <nav class="hidden lg:flex items-center gap-10">
+        <a href="#curriculum" class="nav-link">خدماتنا</a>
+        <a href="#coaches" class="nav-link">فريق العمل</a>
+        <a href="#stories" class="nav-link">سابقة الأعمال</a>
+        <a href="#booking" class="nav-link">استشارة هندسية</a>
+      </nav>
+      
+      <div class="flex items-center gap-5">
+        <div class="hidden md:flex items-center gap-2 font-mono text-[11px] text-[var(--muted)]">
+          <i class="fas fa-location-dot text-[var(--accent)]"></i>
+          <span>التجمع الخامس · القاهرة</span>
+        </div>
+        <a href="#booking" class="hidden sm:inline-block font-heading text-sm font-bold text-black bg-[var(--silver)] px-5 py-2.5 hover:bg-white transition-colors">
+          طلب معاينة
+        </a>
+      </div>
+    </div>
+  </header>
+  
+  <section class="relative h-screen min-h-[760px] w-full overflow-hidden" id="hero">
+    <div class="absolute inset-0" id="reelContainer">
+      <div class="reel-frame active">
+        <img src="https://picsum.photos/seed/archA/1920/1080.jpg" alt="تصميم داخلي">
+      </div>
+      <div class="reel-frame">
+        <img src="https://picsum.photos/seed/archB/1920/1080.jpg" alt="تشطيبات فاخرة">
+      </div>
+      <div class="reel-frame">
+        <img src="https://picsum.photos/seed/archC/1920/1080.jpg" alt="مواقع العمل">
+      </div>
+      <div class="reel-frame">
+        <img src="https://picsum.photos/seed/archD/1920/1080.jpg" alt="واجهات معمارية">
+      </div>
+      <div class="reel-frame">
+        <img src="https://picsum.photos/seed/archE/1920/1080.jpg" alt="تفاصيل ديكور">
+      </div>
+    </div>
+    
+    <div class="hero-overlay"></div>
+    <div class="scan-line"></div>
+    
+    <div class="relative z-10 h-full max-w-[1600px] mx-auto px-6 lg:px-10 flex flex-col justify-end pb-20 pt-32">
+      
+      <div class="absolute top-32 left-6 lg:left-10 flex items-center gap-6 z-20" id="reelControls">
+        <button id="muteToggle" class="unmute-toggle flex items-center gap-3 px-4 py-2.5 border border-white/20 hover:border-[var(--accent)] bg-black/40 backdrop-blur-sm transition-colors group">
+          <span class="font-mono text-[11px] uppercase" id="muteLabel">إيقاف الصوت</span>
+          <i class="fas fa-volume-xmark text-xs text-[var(--muted)] group-hover:text-[var(--accent)]" id="muteIcon"></i>
+        </button>
+      </div>
+      
+      <div class="reveal in-view max-w-5xl">
+        <div class="section-marker mb-6">
+          <span>تأسست عام ٢٠١٢ · مصر</span>
+        </div>
+        <h1 class="font-display font-bold text-[12vw] md:text-[9vw] lg:text-[7vw] leading-[1.1] mb-8">
+          <span class="headline-line"><span>نصمم</span></span>
+          <span class="headline-line"><span class="text-stroke">بشغف وإبداع.</span></span>
+          <span class="headline-line"><span>وننفذ <span class="text-[var(--accent)]">بدقة.</span></span></span>
+        </h1>
+        <p class="max-w-2xl text-[var(--fg-dim)] text-base md:text-lg leading-relaxed font-body">
+          شركة رائدة في مجال التشطيبات والديكور والتصميم الداخلي. نقدم لك حلولاً هندسية متكاملة بلمسة فنية فريدة، لضمان تحويل مساحتك إلى تحفة معمارية تليق بك.
+        </p>
+      </div>
+      
+      <div class="mt-12 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
+        
+        <div class="flex items-center gap-4">
+          <div class="flex flex-row-reverse -space-x-reverse space-x-[-12px]">
+            <img src="https://picsum.photos/seed/eng1/120/120.jpg" class="w-12 h-12 rounded-full border-2 border-[var(--bg)] object-cover img-noir" alt="مهندس">
+            <img src="https://picsum.photos/seed/eng2/120/120.jpg" class="w-12 h-12 rounded-full border-2 border-[var(--bg)] object-cover img-noir" alt="مهندسة">
+            <img src="https://picsum.photos/seed/eng3/120/120.jpg" class="w-12 h-12 rounded-full border-2 border-[var(--bg)] object-cover img-noir" alt="مهندس">
+            <img src="https://picsum.photos/seed/eng4/120/120.jpg" class="w-12 h-12 rounded-full border-2 border-[var(--bg)] object-cover img-noir" alt="مهندس">
+            <div class="w-12 h-12 rounded-full border-2 border-[var(--bg)] bg-[var(--accent)] flex items-center justify-center font-display font-bold text-base text-black">+20</div>
+          </div>
+          <div>
+            <div class="font-mono text-[11px] text-[var(--muted)]">الإدارة الهندسية</div>
+            <div class="font-heading text-sm text-[var(--fg)]">٢٤ مهندس وخبير متخصص</div>
+          </div>
+        </div>
+        
+        <div class="flex items-center gap-6 max-w-md w-full lg:w-auto">
+          <div class="font-mono text-[12px] text-[var(--muted)]">
+            <span id="chapterNum">01</span> / 05
+          </div>
+          <div class="flex-1 progress-bar">
+            <div class="progress-bar-fill" id="reelProgress"></div>
+          </div>
+          <div class="font-mono text-[11px] text-[var(--accent)]">
+            جولة في مشاريعنا
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="absolute bottom-0 left-0 right-0 border-t border-white/5 bg-black/60 backdrop-blur-sm py-3 overflow-hidden z-10">
+      <div class="marquee-track font-display text-sm md:text-lg text-[var(--silver-dim)]">
+        <span class="px-8">الدقة في التفاصيل</span><span class="text-[var(--accent)]">/</span>
+        <span class="px-8">الالتزام بالمواعيد</span><span class="text-[var(--accent)]">/</span>
+        <span class="px-8">تصاميم عصرية</span><span class="text-[var(--accent)]">/</span>
+        <span class="px-8">جودة الخامات</span><span class="text-[var(--accent)]">/</span>
+        <span class="px-8">إشراف هندسي متكامل</span><span class="text-[var(--accent)]">/</span>
+        <span class="px-8">الدقة في التفاصيل</span><span class="text-[var(--accent)]">/</span>
+        <span class="px-8">الالتزام بالمواعيد</span><span class="text-[var(--accent)]">/</span>
+        <span class="px-8">تصاميم عصرية</span><span class="text-[var(--accent)]">/</span>
+        <span class="px-8">جودة الخامات</span><span class="text-[var(--accent)]">/</span>
+        <span class="px-8">إشراف هندسي متكامل</span><span class="text-[var(--accent)]">/</span>
+      </div>
+    </div>
+  </section>
+  
+  <section class="border-y border-[var(--border)] bg-[var(--bg-darker)] relative overflow-hidden">
+    <div class="max-w-[1600px] mx-auto px-6 lg:px-10 py-16 lg:py-20">
+      <div class="reveal-stagger grid grid-cols-2 lg:grid-cols-4 gap-y-10 gap-x-6">
+        <div class="border-r border-[var(--border-light)] pr-6">
+          <div class="font-display font-bold text-6xl md:text-7xl text-[var(--fg)] number-display" data-count="12">0</div>
+          <div class="font-mono text-[13px] text-[var(--muted)] mt-2">سنوات الخبرة</div>
+        </div>
+        <div class="border-r border-[var(--border-light)] pr-6">
+          <div class="font-display font-bold text-6xl md:text-7xl text-[var(--accent)] number-display" data-count="45">0</div>
+          <div class="font-mono text-[13px] text-[var(--muted)] mt-2">مشاريع جارية</div>
+        </div>
+        <div class="border-r border-[var(--border-light)] pr-6">
+          <div class="font-display font-bold text-6xl md:text-7xl text-[var(--fg)] number-display" data-count="850">0</div>
+          <div class="font-mono text-[13px] text-[var(--muted)] mt-2">مشروع مكتمل</div>
+        </div>
+        <div class="border-r border-[var(--border-light)] pr-6">
+          <div class="font-display font-bold text-6xl md:text-7xl text-[var(--fg)] number-display" data-count="24">0</div>
+          <div class="font-mono text-[13px] text-[var(--muted)] mt-2">مهندس ومصمم</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section class="relative py-28 lg:py-36" id="curriculum">
+    <div class="max-w-[1600px] mx-auto px-6 lg:px-10">
+      
+      <div class="reveal grid lg:grid-cols-12 gap-8 mb-20">
+        <div class="lg:col-span-5">
+          <div class="section-marker mb-6"><span>02 — خدماتنا</span></div>
+          <h2 class="font-display font-bold text-5xl md:text-6xl lg:text-7xl leading-[1.2]">
+            ثلاثة مسارات.<br>
+            <span class="text-stroke">نتيجة واحدة:</span><br>
+            <span class="text-[var(--accent)]">جودة استثنائية.</span>
+          </h2>
+        </div>
+        <div class="lg:col-span-6 lg:col-start-7 flex flex-col justify-end">
+          <p class="text-[var(--fg-dim)] text-lg leading-relaxed mb-6">
+            كل خدمة نقدمها في "عِمران" تتمحور حول هدف واحد: تحويل رؤيتك إلى واقع ملموس بأعلى معايير الجودة والهندسة المعمارية. اختر المسار الذي يناسبك، وسنتولى نحن التصميم، التنفيذ، والإشراف الكامل.
+          </p>
+          <div class="flex flex-wrap gap-3">
+            <span class="goal-pill active">جميع الخدمات</span>
+            <span class="goal-pill">التشطيب الكامل</span>
+            <span class="goal-pill">التصميم الداخلي</span>
+            <span class="goal-pill">الإشراف الهندسي</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="reveal-stagger grid md:grid-cols-3 gap-6 lg:gap-8">
+        
+        <article class="program-card info-card notch-corner group">
+          <div class="relative h-72 overflow-hidden">
+            <img src="https://picsum.photos/seed/serv1/800/600.jpg" class="program-img w-full h-full object-cover img-noir" alt="التشطيب المتكامل">
+            <div class="absolute inset-0 bg-gradient-to-t from-[var(--bg-card)] via-transparent to-transparent"></div>
+            <div class="absolute top-4 right-4 font-mono text-[12px] text-[var(--accent)]">01 / تسليم مفتاح</div>
+          </div>
+          <div class="p-7">
+            <h3 class="font-display font-bold text-3xl mb-3">التشطيب المتكامل</h3>
+            <p class="text-[var(--fg-dim)] text-sm leading-relaxed mb-6">
+              باقات تشطيب متكاملة (نصف تشطيب، الترا سوبر لوكس) للشقق والفلل والمقرات التجارية. نتكفل بكافة الأعمال من السباكة والكهرباء وحتى اللمسات النهائية.
+            </p>
+            <div class="grid grid-cols-2 gap-y-3 gap-x-4 mb-6 pb-6 border-b border-[var(--border-light)]">
+              <div>
+                <div class="font-mono text-[11px] text-[var(--muted)]">المدة التقديرية</div>
+                <div class="font-heading font-bold text-base">٤٥ - ٩٠ يوم</div>
+              </div>
+              <div>
+                <div class="font-mono text-[11px] text-[var(--muted)]">الخامات</div>
+                <div class="font-heading font-bold text-base">فئة أولى مستوردة</div>
+              </div>
+              <div>
+                <div class="font-mono text-[11px] text-[var(--muted)]">الضمان</div>
+                <div class="font-heading font-bold text-base">١٠ سنوات</div>
+              </div>
+              <div>
+                <div class="font-mono text-[11px] text-[var(--muted)]">التنفيذ</div>
+                <div class="font-heading font-bold text-base">إشراف هندسي يومي</div>
+              </div>
+            </div>
+            <a href="#booking" class="flex items-center justify-between font-heading font-bold text-sm link-underline">
+              <span>طلب معاينة للموقع</span>
+              <i class="fas fa-arrow-left text-[var(--accent)]"></i>
+            </a>
+          </div>
+        </article>
+        
+        <article class="program-card info-card notch-corner group">
+          <div class="relative h-72 overflow-hidden">
+            <img src="https://picsum.photos/seed/serv2/800/600.jpg" class="program-img w-full h-full object-cover img-noir" alt="التصميم الداخلي">
+            <div class="absolute inset-0 bg-gradient-to-t from-[var(--bg-card)] via-transparent to-transparent"></div>
+            <div class="absolute top-4 right-4 font-mono text-[12px] text-[var(--accent)]">02 / 3D MAX</div>
+          </div>
+          <div class="p-7">
+            <h3 class="font-display font-bold text-3xl mb-3">التصميم الداخلي (Decor)</h3>
+            <p class="text-[var(--fg-dim)] text-sm leading-relaxed mb-6">
+              تصاميم ثلاثية الأبعاد (3D) تحاكي الواقع قبل البدء في التنفيذ. استغلال مثالي للمساحات وتوزيع الإضاءة والأثاث بأسلوب (Modern, Classic, Neo-Classic).
+            </p>
+            <div class="grid grid-cols-2 gap-y-3 gap-x-4 mb-6 pb-6 border-b border-[var(--border-light)]">
+              <div>
+                <div class="font-mono text-[11px] text-[var(--muted)]">المدة التقديرية</div>
+                <div class="font-heading font-bold text-base">١٠ - ٢١ يوم</div>
+              </div>
+              <div>
+                <div class="font-mono text-[11px] text-[var(--muted)]">التعديلات</div>
+                <div class="font-heading font-bold text-base">مرونة في التعديل</div>
+              </div>
+              <div>
+                <div class="font-mono text-[11px] text-[var(--muted)]">المخرجات</div>
+                <div class="font-heading font-bold text-base">صور واقعية + مخططات</div>
+              </div>
+              <div>
+                <div class="font-mono text-[11px] text-[var(--muted)]">توزيع الأثاث</div>
+                <div class="font-heading font-bold text-base">مدرج بالكامل</div>
+              </div>
+            </div>
+            <a href="#booking" class="flex items-center justify-between font-heading font-bold text-sm link-underline">
+              <span>طلب تصميم هندسي</span>
+              <i class="fas fa-arrow-left text-[var(--accent)]"></i>
+            </a>
+          </div>
+        </article>
+        
+        <article class="program-card info-card notch-corner group">
+          <div class="relative h-72 overflow-hidden">
+            <img src="https://picsum.photos/seed/serv3/800/600.jpg" class="program-img w-full h-full object-cover img-noir" alt="الإشراف والتنفيذ">
+            <div class="absolute inset-0 bg-gradient-to-t from-[var(--bg-card)] via-transparent to-transparent"></div>
+            <div class="absolute top-4 right-4 font-mono text-[12px] text-[var(--accent)]">03 / الإشراف</div>
+          </div>
+          <div class="p-7">
+            <h3 class="font-display font-bold text-3xl mb-3">التنفيذ والإشراف</h3>
+            <p class="text-[var(--fg-dim)] text-sm leading-relaxed mb-6">
+              هل لديك تصميم بالفعل وتريد تنفيذه؟ نوفر لك طاقم هندسي للإشراف على العمالة الخاصة بك أو مقاولين لضمان دقة التنفيذ ومطابقته للمخططات الهندسية.
+            </p>
+            <div class="grid grid-cols-2 gap-y-3 gap-x-4 mb-6 pb-6 border-b border-[var(--border-light)]">
+              <div>
+                <div class="font-mono text-[11px] text-[var(--muted)]">نظام التعاقد</div>
+                <div class="font-heading font-bold text-base">نسبة إشراف / مقطوعية</div>
+              </div>
+              <div>
+                <div class="font-mono text-[11px] text-[var(--muted)]">الزيارات</div>
+                <div class="font-heading font-bold text-base">زيارات دورية للموقع</div>
+              </div>
+              <div>
+                <div class="font-mono text-[11px] text-[var(--muted)]">التقارير</div>
+                <div class="font-heading font-bold text-base">تقرير أسبوعي مصور</div>
+              </div>
+              <div>
+                <div class="font-mono text-[11px] text-[var(--muted)]">استلام البنود</div>
+                <div class="font-heading font-bold text-base">حسب الكود المصري</div>
+              </div>
+            </div>
+            <a href="#booking" class="flex items-center justify-between font-heading font-bold text-sm link-underline">
+              <span>تواصل مع الإدارة</span>
+              <i class="fas fa-arrow-left text-[var(--accent)]"></i>
+            </a>
+          </div>
+        </article>
+        
+      </div>
+    </div>
+  </section>
+  
+  <section class="relative py-28 lg:py-36 border-t border-[var(--border)] bg-[var(--bg-darker)]" id="coaches">
+    <div class="max-w-[1600px] mx-auto px-6 lg:px-10">
+      
+      <div class="reveal grid lg:grid-cols-12 gap-8 mb-20">
+        <div class="lg:col-span-7">
+          <div class="section-marker mb-6"><span>03 — عقول معمارية</span></div>
+          <h2 class="font-display font-bold text-5xl md:text-6xl lg:text-7xl leading-[1.2]">
+            مهندسون <span class="text-[var(--accent)]">يبدعون</span><br>
+            وخبراء <span class="text-stroke">ينفذون.</span>
+          </h2>
+        </div>
+        <div class="lg:col-span-4 lg:col-start-9 flex flex-col justify-end">
+          <p class="text-[var(--fg-dim)] text-base leading-relaxed">
+            يضم فريق "عِمران" نخبة من أمهر المهندسين المدنيين والمعماريين ومصممي الديكور ذوي الخبرة الواسعة في السوق المصري. مرر الماوس على الصورة لرؤية التفاصيل.
+          </p>
+        </div>
+      </div>
+      
+      <div class="reveal-stagger grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-face flip-front info-card flex flex-col">
+              <div class="coach-img-wrap">
+                <img src="https://picsum.photos/seed/engTariq/600/800.jpg" alt="م. طارق">
+                <div class="absolute top-4 right-4 font-mono text-[12px] text-[var(--accent)]">/ 01</div>
+                <div class="absolute top-4 left-4 px-2 py-1 bg-black/60 backdrop-blur-sm font-mono text-[11px] text-[var(--fg)]">مدير المشاريع</div>
+              </div>
+              <div class="p-6 flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 class="font-display font-bold text-2xl leading-none">م. طارق محمود</h3>
+                  <p class="text-[var(--muted)] text-sm mt-2 font-heading">المدير الهندسي العام</p>
+                </div>
+                <div class="flex items-center justify-between mt-4 pt-4 border-t border-[var(--border-light)]">
+                  <span class="font-mono text-[11px] text-[var(--muted)]">خبرة ١٥ عام · PMP</span>
+                  <span class="font-mono text-[11px] text-[var(--accent)]">التفاصيل ←</span>
+                </div>
+              </div>
+            </div>
+            <div class="flip-face flip-back info-card p-7 flex flex-col bg-[var(--bg-card)]">
+              <div class="font-mono text-[11px] text-[var(--accent)] mb-4">/ طارق محمود — السيرة الذاتية</div>
+              <h3 class="font-display font-bold text-xl mb-5">الاعتمادات والخبرات</h3>
+              <ul class="space-y-2.5 text-sm mb-6">
+                <li class="flex items-center gap-3"><i class="fas fa-hard-hat text-[var(--accent)] text-xs"></i><span>مدير مشاريع معتمد (PMP)</span></li>
+                <li class="flex items-center gap-3"><i class="fas fa-hard-hat text-[var(--accent)] text-xs"></i><span>استشاري نقابة المهندسين</span></li>
+                <li class="flex items-center gap-3"><i class="fas fa-hard-hat text-[var(--accent)] text-xs"></i><span>إشراف على كبرى الفنادق</span></li>
+                <li class="flex items-center gap-3"><i class="fas fa-hard-hat text-[var(--accent)] text-xs"></i><span>خبير حساب كميات وعقود</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-face flip-front info-card flex flex-col">
+              <div class="coach-img-wrap">
+                <img src="https://picsum.photos/seed/engSarah/600/800.jpg" alt="م. سارة">
+                <div class="absolute top-4 right-4 font-mono text-[12px] text-[var(--accent)]">/ 02</div>
+                <div class="absolute top-4 left-4 px-2 py-1 bg-black/60 backdrop-blur-sm font-mono text-[11px] text-[var(--fg)]">رئيسة قسم التصميم</div>
+              </div>
+              <div class="p-6 flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 class="font-display font-bold text-2xl leading-none">م. سارة عثمان</h3>
+                  <p class="text-[var(--muted)] text-sm mt-2 font-heading">كبيرة مصممي الديكور</p>
+                </div>
+                <div class="flex items-center justify-between mt-4 pt-4 border-t border-[var(--border-light)]">
+                  <span class="font-mono text-[11px] text-[var(--muted)]">خبرة ٨ سنوات · Interior</span>
+                  <span class="font-mono text-[11px] text-[var(--accent)]">التفاصيل ←</span>
+                </div>
+              </div>
+            </div>
+            <div class="flip-face flip-back info-card p-7 flex flex-col bg-[var(--bg-card)]">
+              <div class="font-mono text-[11px] text-[var(--accent)] mb-4">/ سارة عثمان — السيرة الذاتية</div>
+              <h3 class="font-display font-bold text-xl mb-5">الاعتمادات والخبرات</h3>
+              <ul class="space-y-2.5 text-sm mb-6">
+                <li class="flex items-center gap-3"><i class="fas fa-palette text-[var(--accent)] text-xs"></i><span>بكالوريوس فنون تطبيقية</span></li>
+                <li class="flex items-center gap-3"><i class="fas fa-palette text-[var(--accent)] text-xs"></i><span>خبيرة في التصميم الـ Neo-Classic</span></li>
+                <li class="flex items-center gap-3"><i class="fas fa-palette text-[var(--accent)] text-xs"></i><span>دبلومة الإضاءة المعمارية</span></li>
+                <li class="flex items-center gap-3"><i class="fas fa-palette text-[var(--accent)] text-xs"></i><span>أكثر من ١٢٠ مشروع مصمم</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-face flip-front info-card flex flex-col">
+              <div class="coach-img-wrap">
+                <img src="https://picsum.photos/seed/engAhmed/600/800.jpg" alt="م. أحمد">
+                <div class="absolute top-4 right-4 font-mono text-[12px] text-[var(--accent)]">/ 03</div>
+                <div class="absolute top-4 left-4 px-2 py-1 bg-black/60 backdrop-blur-sm font-mono text-[11px] text-[var(--fg)]">مدير التنفيذ</div>
+              </div>
+              <div class="p-6 flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 class="font-display font-bold text-2xl leading-none">م. أحمد كمال</h3>
+                  <p class="text-[var(--muted)] text-sm mt-2 font-heading">مهندس موقع وإشراف</p>
+                </div>
+                <div class="flex items-center justify-between mt-4 pt-4 border-t border-[var(--border-light)]">
+                  <span class="font-mono text-[11px] text-[var(--muted)]">خبرة ١٠ سنوات · Civil</span>
+                  <span class="font-mono text-[11px] text-[var(--accent)]">التفاصيل ←</span>
+                </div>
+              </div>
+            </div>
+            <div class="flip-face flip-back info-card p-7 flex flex-col bg-[var(--bg-card)]">
+              <div class="font-mono text-[11px] text-[var(--accent)] mb-4">/ أحمد كمال — السيرة الذاتية</div>
+              <h3 class="font-display font-bold text-xl mb-5">الاعتمادات والخبرات</h3>
+              <ul class="space-y-2.5 text-sm mb-6">
+                <li class="flex items-center gap-3"><i class="fas fa-hammer text-[var(--accent)] text-xs"></i><span>مهندس مدني متخصص تشطيبات</span></li>
+                <li class="flex items-center gap-3"><i class="fas fa-hammer text-[var(--accent)] text-xs"></i><span>إدارة طواقم العمالة والفنيين</span></li>
+                <li class="flex items-center gap-3"><i class="fas fa-hammer text-[var(--accent)] text-xs"></i><span>استلام البنود بدقة متناهية</span></li>
+                <li class="flex items-center gap-3"><i class="fas fa-hammer text-[var(--accent)] text-xs"></i><span>متابعة الخامات وتوريدها</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-face flip-front info-card flex flex-col">
+              <div class="coach-img-wrap">
+                <img src="https://picsum.photos/seed/engOmar/600/800.jpg" alt="م. عمر">
+                <div class="absolute top-4 right-4 font-mono text-[12px] text-[var(--accent)]">/ 04</div>
+                <div class="absolute top-4 left-4 px-2 py-1 bg-black/60 backdrop-blur-sm font-mono text-[11px] text-[var(--fg)]">أنظمة ذكية</div>
+              </div>
+              <div class="p-6 flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 class="font-display font-bold text-2xl leading-none">م. عمر الدسوقي</h3>
+                  <p class="text-[var(--muted)] text-sm mt-2 font-heading">أخصائي المنازل الذكية</p>
+                </div>
+                <div class="flex items-center justify-between mt-4 pt-4 border-t border-[var(--border-light)]">
+                  <span class="font-mono text-[11px] text-[var(--muted)]">خبرة ٦ سنوات · Smart Home</span>
+                  <span class="font-mono text-[11px] text-[var(--accent)]">التفاصيل ←</span>
+                </div>
+              </div>
+            </div>
+            <div class="flip-face flip-back info-card p-7 flex flex-col bg-[var(--bg-card)]">
+              <div class="font-mono text-[11px] text-[var(--accent)] mb-4">/ عمر الدسوقي — السيرة الذاتية</div>
+              <h3 class="font-display font-bold text-xl mb-5">الاعتمادات والخبرات</h3>
+              <ul class="space-y-2.5 text-sm mb-6">
+                <li class="flex items-center gap-3"><i class="fas fa-wifi text-[var(--accent)] text-xs"></i><span>مهندس اتصالات وأنظمة ذكية</span></li>
+                <li class="flex items-center gap-3"><i class="fas fa-wifi text-[var(--accent)] text-xs"></i><span>تأسيس أنظمة KNX و Zigbee</span></li>
+                <li class="flex items-center gap-3"><i class="fas fa-wifi text-[var(--accent)] text-xs"></i><span>حلول الصوتيات والشبكات المركزية</span></li>
+                <li class="flex items-center gap-3"><i class="fas fa-wifi text-[var(--accent)] text-xs"></i><span>تأمين المنازل كاميرات وإنذار</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </section>
+  
+  <section class="relative py-28 lg:py-36 overflow-hidden" id="stories">
+    <div class="max-w-[1600px] mx-auto px-6 lg:px-10 mb-16">
+      <div class="reveal grid lg:grid-cols-12 gap-8">
+        <div class="lg:col-span-7">
+          <div class="section-marker mb-6"><span>04 — سابقة أعمالنا</span></div>
+          <h2 class="font-display font-bold text-5xl md:text-6xl lg:text-7xl leading-[1.2]">
+            مشاريع تتحدث.<br>
+            <span class="text-[var(--accent)]">جودة</span> تدوم طويلاً.
+          </h2>
+        </div>
+        <div class="lg:col-span-4 lg:col-start-9 flex flex-col justify-end">
+          <p class="text-[var(--fg-dim)] text-base leading-relaxed mb-5">
+            تصفح أحدث مشاريعنا التي تم تسليمها للعملاء. من الفيلات الفاخرة إلى المقرات الإدارية والعيادات. قم بسحب الشريط لرؤية المزيد.
+          </p>
+          <div class="flex items-center gap-3 font-mono text-[12px] text-[var(--muted)]">
+            <i class="fas fa-hand-pointer text-[var(--accent)]"></i>
+            <span>اسحب لليمين واليسار</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="relative overflow-hidden">
+      <div class="story-track" id="storyTrack" dir="ltr"> <article class="story-card" dir="rtl">
+          <div class="relative h-56 overflow-hidden">
+            <img src="https://picsum.photos/seed/proj1/600/400.jpg" class="w-full h-full object-cover img-noir" alt="فيلا النرجس">
+            <div class="absolute top-4 right-4 font-mono text-[12px] text-[var(--accent)]">مشروع / 01</div>
+            <div class="absolute bottom-4 left-4 px-2 py-1 bg-[var(--accent)] text-black font-mono text-[11px]">فيلا سكنية</div>
+          </div>
+          <div class="p-6">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-display font-bold text-2xl">فيلا التجمع الخامس</h3>
+              <span class="font-mono text-[11px] text-[var(--muted)]">٤ شهور</span>
+            </div>
+            <p class="text-[var(--fg-dim)] text-sm leading-relaxed mb-5 italic">
+              "تم استلام الفيلا على الطوب الأحمر، وتم تسليمها الترا سوبر لوكس مع تأثيث كامل وتأسيس سمارت هوم."
+            </p>
+            <div class="grid grid-cols-3 gap-2 pt-4 border-t border-[var(--border-light)]">
+              <div>
+                <div class="font-display font-bold text-xl text-[var(--accent)]">450</div>
+                <div class="font-mono text-[10px] text-[var(--muted)]">متر مربع</div>
+              </div>
+              <div>
+                <div class="font-display font-bold text-xl">Modern</div>
+                <div class="font-mono text-[10px] text-[var(--muted)]">الستايل</div>
+              </div>
+              <div>
+                <div class="font-display font-bold text-xl">2023</div>
+                <div class="font-mono text-[10px] text-[var(--muted)]">سنة التسليم</div>
+              </div>
+            </div>
+          </div>
+        </article>
+        
+        <article class="story-card" dir="rtl">
+          <div class="relative h-56 overflow-hidden">
+            <img src="https://picsum.photos/seed/proj2/600/400.jpg" class="w-full h-full object-cover img-noir" alt="مقر إداري">
+            <div class="absolute top-4 right-4 font-mono text-[12px] text-[var(--accent)]">مشروع / 02</div>
+            <div class="absolute bottom-4 left-4 px-2 py-1 bg-[var(--accent)] text-black font-mono text-[11px]">تجاري/إداري</div>
+          </div>
+          <div class="p-6">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-display font-bold text-2xl">مقر شركة برمجيات</h3>
+              <span class="font-mono text-[11px] text-[var(--muted)]">٤٥ يوم</span>
+            </div>
+            <p class="text-[var(--fg-dim)] text-sm leading-relaxed mb-5 italic">
+              "تصميم وتنفيذ مقر إداري بطابع صناعي (Industrial) حديث، مع الاهتمام بتمديدات الشبكات الكثيفة وتوفير مساحات عمل مفتوحة."
+            </p>
+            <div class="grid grid-cols-3 gap-2 pt-4 border-t border-[var(--border-light)]">
+              <div>
+                <div class="font-display font-bold text-xl text-[var(--accent)]">220</div>
+                <div class="font-mono text-[10px] text-[var(--muted)]">متر مربع</div>
+              </div>
+              <div>
+                <div class="font-display font-bold text-xl">Industrial</div>
+                <div class="font-mono text-[10px] text-[var(--muted)]">الستايل</div>
+              </div>
+              <div>
+                <div class="font-display font-bold text-xl">2023</div>
+                <div class="font-mono text-[10px] text-[var(--muted)]">سنة التسليم</div>
+              </div>
+            </div>
+          </div>
+        </article>
+        
+        <article class="story-card" dir="rtl">
+          <div class="relative h-56 overflow-hidden">
+            <img src="https://picsum.photos/seed/proj3/600/400.jpg" class="w-full h-full object-cover img-noir" alt="عيادة طبية">
+            <div class="absolute top-4 right-4 font-mono text-[12px] text-[var(--accent)]">مشروع / 03</div>
+            <div class="absolute bottom-4 left-4 px-2 py-1 bg-[var(--accent)] text-black font-mono text-[11px]">طبي</div>
+          </div>
+          <div class="p-6">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-display font-bold text-2xl">مركز أسنان - زايد</h3>
+              <span class="font-mono text-[11px] text-[var(--muted)]">٦٠ يوم</span>
+            </div>
+            <p class="text-[var(--fg-dim)] text-sm leading-relaxed mb-5 italic">
+              "تم مراعاة أعلى معايير مكافحة العدوى في الخامات المستخدمة، مع تصميم مريح للأعصاب يعطي طابعاً بالفخامة والهدوء للمرضى."
+            </p>
+            <div class="grid grid-cols-3 gap-2 pt-4 border-t border-[var(--border-light)]">
+              <div>
+                <div class="font-display font-bold text-xl text-[var(--accent)]">180</div>
+                <div class="font-mono text-[10px] text-[var(--muted)]">متر مربع</div>
+              </div>
+              <div>
+                <div class="font-display font-bold text-xl">Minimalist</div>
+                <div class="font-mono text-[10px] text-[var(--muted)]">الستايل</div>
+              </div>
+              <div>
+                <div class="font-display font-bold text-xl">2024</div>
+                <div class="font-mono text-[10px] text-[var(--muted)]">سنة التسليم</div>
+              </div>
+            </div>
+          </div>
+        </article>
+        
+        <article class="story-card" dir="rtl">
+          <div class="relative h-56 overflow-hidden">
+            <img src="https://picsum.photos/seed/proj4/600/400.jpg" class="w-full h-full object-cover img-noir" alt="شقة المعادي">
+            <div class="absolute top-4 right-4 font-mono text-[12px] text-[var(--accent)]">مشروع / 04</div>
+            <div class="absolute bottom-4 left-4 px-2 py-1 bg-[var(--accent)] text-black font-mono text-[11px]">سكني</div>
+          </div>
+          <div class="p-6">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="font-display font-bold text-2xl">شقة المعادي</h3>
+              <span class="font-mono text-[11px] text-[var(--muted)]">٣ شهور</span>
+            </div>
+            <p class="text-[var(--fg-dim)] text-sm leading-relaxed mb-5 italic">
+              "إعادة تجديد شاملة لشقة قديمة (Renovation). تم تغيير جميع شبكات السباكة والكهرباء بالكامل وفتح المساحات بنظام المطبخ الأمريكي المفتوح."
+            </p>
+            <div class="grid grid-cols-3 gap-2 pt-4 border-t border-[var(--border-light)]">
+              <div>
+                <div class="font-display font-bold text-xl text-[var(--accent)]">240</div>
+                <div class="font-mono text-[10px] text-[var(--muted)]">متر مربع</div>
+              </div>
+              <div>
+                <div class="font-display font-bold text-xl">Neo-Classic</div>
+                <div class="font-mono text-[10px] text-[var(--muted)]">الستايل</div>
+              </div>
+              <div>
+                <div class="font-display font-bold text-xl">2024</div>
+                <div class="font-mono text-[10px] text-[var(--muted)]">سنة التسليم</div>
+              </div>
+            </div>
+          </div>
+        </article>
+        
+      </div>
+      
+      <div class="max-w-[1600px] mx-auto px-6 lg:px-10 mt-10 flex items-center justify-between">
+        <div class="flex items-center gap-2 flex-row-reverse" id="storyDots"></div>
+        <div class="flex items-center gap-3 flex-row-reverse">
+          <button class="w-11 h-11 border border-[var(--border-light)] hover:border-[var(--accent)] hover:bg-[var(--accent)] hover:text-black transition-all flex items-center justify-center" id="storyPrev">
+            <i class="fas fa-arrow-right text-xs"></i>
+          </button>
+          <button class="w-11 h-11 border border-[var(--border-light)] hover:border-[var(--accent)] hover:bg-[var(--accent)] hover:text-black transition-all flex items-center justify-center" id="storyNext">
+            <i class="fas fa-arrow-left text-xs"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section class="relative py-28 lg:py-36 border-t border-[var(--border)] bg-[var(--bg-darker)]" id="booking">
+    <div class="max-w-[1600px] mx-auto px-6 lg:px-10">
+      
+      <div class="reveal grid lg:grid-cols-12 gap-8 mb-16">
+        <div class="lg:col-span-8">
+          <div class="section-marker mb-6"><span>05 — ابدأ مشروعك</span></div>
+          <h2 class="font-display font-bold text-5xl md:text-6xl lg:text-[6rem] leading-[1.1]">
+            لا تنتظر طويلاً.<br>
+            <span class="text-stroke">احجز</span> <span class="text-[var(--accent)]">معاينتك الآن.</span>
+          </h2>
+        </div>
+      </div>
+      
+      <div class="grid lg:grid-cols-12 gap-8 lg:gap-12">
+        
+        <div class="lg:col-span-7 reveal">
+          <div class="booking-frame p-8 lg:p-12">
+            <div class="font-mono text-[12px] text-[var(--accent)] mb-3">// طلب استشارة أو معاينة مجانية</div>
+            <h3 class="font-display font-bold text-3xl md:text-4xl mb-2">تواصل مع قسم المبيعات الهندسية</h3>
+            <p class="text-[var(--fg-dim)] text-sm mb-8">يقوم أحد مهندسينا بزيارة موقعك لرفع المقاسات، دراسة المساحة، وتقديم عرض سعر مبدئي (متاح لـ ٣٠ طلب شهرياً فقط).</p>
+            
+            <form id="bookingForm" class="space-y-6">
+              <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                  <label class="font-mono text-[11px] text-[var(--muted)]">الاسم بالكامل</label>
+                  <input type="text" class="form-input" placeholder="أدخل اسمك" required>
+                </div>
+                <div>
+                  <label class="font-mono text-[11px] text-[var(--muted)]">رقم الهاتف (واتساب)</label>
+                  <input type="tel" class="form-input" placeholder="010XXXXXXXX" dir="ltr" style="text-align: right;" required>
+                </div>
+              </div>
+              
+              <div>
+                <label class="font-mono text-[11px] text-[var(--muted)]">البريد الإلكتروني</label>
+                <input type="email" class="form-input" placeholder="you@email.com" dir="ltr" style="text-align: right;" required>
+              </div>
+              
+              <div>
+                <label class="font-mono text-[11px] text-[var(--muted)] block mb-3">نوع الوحدة أو المشروع</label>
+                <div class="flex flex-wrap gap-2" id="goalSelector">
+                  <span class="goal-pill active" data-goal="muscle">شقة سكنية</span>
+                  <span class="goal-pill" data-goal="fat">فيلا / دوبلكس</span>
+                  <span class="goal-pill" data-goal="fitness">مقر تجاري / إداري</span>
+                  <span class="goal-pill" data-goal="athletic">عيادة طبية</span>
+                  <span class="goal-pill" data-goal="rehab">واجهات معمارية</span>
+                </div>
+              </div>
+              
+              <div>
+                <label class="font-mono text-[11px] text-[var(--muted)] block mb-3">الوقت المفضل للتواصل</label>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                  <label class="cursor-pointer">
+                    <input type="radio" name="time" class="peer sr-only" checked>
+                    <div class="text-center py-3 border border-[var(--border-light)] text-[var(--fg-dim)] font-heading text-xs peer-checked:bg-[var(--accent)] peer-checked:text-black peer-checked:border-[var(--accent)] transition-all font-bold">الصباح<br><span class="font-mono text-[10px] font-normal">٩ ص - ١٢ م</span></div>
+                  </label>
+                  <label class="cursor-pointer">
+                    <input type="radio" name="time" class="peer sr-only">
+                    <div class="text-center py-3 border border-[var(--border-light)] text-[var(--fg-dim)] font-heading text-xs peer-checked:bg-[var(--accent)] peer-checked:text-black peer-checked:border-[var(--accent)] transition-all font-bold">الظهر<br><span class="font-mono text-[10px] font-normal">١٢ م - ٤ م</span></div>
+                  </label>
+                  <label class="cursor-pointer">
+                    <input type="radio" name="time" class="peer sr-only">
+                    <div class="text-center py-3 border border-[var(--border-light)] text-[var(--fg-dim)] font-heading text-xs peer-checked:bg-[var(--accent)] peer-checked:text-black peer-checked:border-[var(--accent)] transition-all font-bold">المساء<br><span class="font-mono text-[10px] font-normal">٤ م - ٨ م</span></div>
+                  </label>
+                  <label class="cursor-pointer">
+                    <input type="radio" name="time" class="peer sr-only">
+                    <div class="text-center py-3 border border-[var(--border-light)] text-[var(--fg-dim)] font-heading text-xs peer-checked:bg-[var(--accent)] peer-checked:text-black peer-checked:border-[var(--accent)] transition-all font-bold">أي وقت<br><span class="font-mono text-[10px] font-normal">خلال اليوم</span></div>
+                  </label>
+                </div>
+              </div>
+              
+              <button type="submit" class="pulse-btn w-full bg-[var(--accent)] text-black py-5 font-display font-bold text-2xl hover:bg-[var(--accent-bright)] transition-colors flex items-center justify-center gap-4 mt-4">
+                <span>إرسال الطلب الآن</span>
+                <i class="fas fa-paper-plane"></i>
+              </button>
+              
+              <p class="text-center font-mono text-[11px] text-[var(--muted)]">
+                المعاينة الأولى مجانية · لا يوجد التزام تعاقدي · الرد خلال ٢٤ ساعة
+              </p>
+            </form>
+          </div>
+        </div>
+        
+        <div class="lg:col-span-5 reveal" style="--delay: 0.2s;">
+          <div class="space-y-6">
+            
+            <div class="info-card p-7">
+              <div class="font-mono text-[12px] text-[var(--accent)] mb-2">/ مقر الشركة الرئيسي</div>
+              <h4 class="font-display font-bold text-2xl mb-3">عِمران للتشطيبات والديكور</h4>
+              <p class="text-[var(--fg-dim)] text-sm leading-relaxed mb-4">
+                شارع التسعين الشمالي<br>
+                التجمع الخامس، القاهرة، مصر
+              </p>
+            </div>
+            
+            <div class="info-card p-7">
+              <div class="font-mono text-[12px] text-[var(--accent)] mb-2">/ ساعات العمل</div>
+              <h4 class="font-display font-bold text-2xl mb-3">مواعيد الإدارة الهندسية</h4>
+              <div class="space-y-2 text-sm">
+                <div class="flex justify-between border-b border-[var(--border-light)] pb-2">
+                  <span class="text-[var(--fg-dim)]">السبت — الخميس</span>
+                  <span class="font-mono text-[var(--silver)]" dir="ltr">09:00 — 18:00</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-[var(--fg-dim)]">الجمعة</span>
+                  <span class="font-mono text-[var(--accent)]">مغلق (إجازة أسبوعية)</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="info-card p-7">
+              <div class="font-mono text-[12px] text-[var(--accent)] mb-2">/ تواصل معنا مباشرة</div>
+              <h4 class="font-display font-bold text-2xl mb-3">بيانات الاتصال</h4>
+              <div class="space-y-2.5 text-sm">
+                <a href="tel:+201000000000" class="flex items-center gap-3 hover:text-[var(--accent)] transition-colors">
+                  <i class="fas fa-phone text-[var(--accent)] w-4"></i>
+                  <span class="font-mono" dir="ltr">+20 100 000 0000</span>
+                </a>
+                <a href="mailto:info@omran.design" class="flex items-center gap-3 hover:text-[var(--accent)] transition-colors">
+                  <i class="fas fa-envelope text-[var(--accent)] w-4"></i>
+                  <span class="font-mono">info@omran.design</span>
+                </a>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <footer class="border-t border-[var(--border)] bg-black py-16 relative overflow-hidden">
+    <div class="max-w-[1600px] mx-auto px-6 lg:px-10">
+      
+      <div class="font-display font-bold text-[18vw] md:text-[14vw] leading-none text-stroke opacity-10 absolute bottom-0 left-0 right-0 text-center pointer-events-none select-none">
+        OMRAN
+      </div>
+      
+      <div class="relative grid md:grid-cols-12 gap-10 mb-12">
+        <div class="md:col-span-5">
+          <div class="flex items-center gap-3 mb-5">
+            <div class="w-10 h-10 bg-[var(--accent)] flex items-center justify-center">
+              <i class="fas fa-compass-drafting text-black"></i>
+            </div>
+            <div>
+              <div class="font-display font-bold text-2xl leading-none">عِمران</div>
+              <div class="font-mono text-[10px] text-[var(--muted)] mt-0.5">EST. 2012 · CAIRO</div>
+            </div>
+          </div>
+          <p class="text-[var(--fg-dim)] text-sm leading-relaxed max-w-md mb-6">
+            شركة هندسية متخصصة في التشطيبات والديكور والتصميم الداخلي. نقدم خدمات متكاملة تضمن راحة بالك بأعلى جودة معمارية منذ عام ٢٠١٢.
+          </p>
+          <div class="flex gap-3">
+            <a href="#" class="w-10 h-10 border border-[var(--border-light)] hover:border-[var(--accent)] hover:bg-[var(--accent)] hover:text-black transition-all flex items-center justify-center">
+              <i class="fab fa-instagram text-sm"></i>
+            </a>
+            <a href="#" class="w-10 h-10 border border-[var(--border-light)] hover:border-[var(--accent)] hover:bg-[var(--accent)] hover:text-black transition-all flex items-center justify-center">
+              <i class="fab fa-youtube text-sm"></i>
+            </a>
+            <a href="#" class="w-10 h-10 border border-[var(--border-light)] hover:border-[var(--accent)] hover:bg-[var(--accent)] hover:text-black transition-all flex items-center justify-center">
+              <i class="fab fa-tiktok text-sm"></i>
+            </a>
+            <a href="#" class="w-10 h-10 border border-[var(--border-light)] hover:border-[var(--accent)] hover:bg-[var(--accent)] hover:text-black transition-all flex items-center justify-center">
+              <i class="fab fa-facebook-f text-sm"></i>
+            </a>
+          </div>
+        </div>
+        
+        <div class="md:col-span-2">
+          <h5 class="font-mono text-[12px] text-[var(--accent)] mb-4">الخدمات الأساسية</h5>
+          <ul class="space-y-2 text-sm">
+            <li><a href="#curriculum" class="text-[var(--fg-dim)] hover:text-[var(--fg)] link-underline">التشطيب المتكامل</a></li>
+            <li><a href="#curriculum" class="text-[var(--fg-dim)] hover:text-[var(--fg)] link-underline">التصميم الداخلي 3D</a></li>
+            <li><a href="#curriculum" class="text-[var(--fg-dim)] hover:text-[var(--fg)] link-underline">الإشراف الهندسي</a></li>
+            <li><a href="#curriculum" class="text-[var(--fg-dim)] hover:text-[var(--fg)] link-underline">المنازل الذكية (Smart Home)</a></li>
+          </ul>
+        </div>
+        
+        <div class="md:col-span-2">
+          <h5 class="font-mono text-[12px] text-[var(--accent)] mb-4">الشركة</h5>
+          <ul class="space-y-2 text-sm">
+            <li><a href="#coaches" class="text-[var(--fg-dim)] hover:text-[var(--fg)] link-underline">فريق المهندسين</a></li>
+            <li><a href="#stories" class="text-[var(--fg-dim)] hover:text-[var(--fg)] link-underline">سابقة الأعمال</a></li>
+            <li><a href="#" class="text-[var(--fg-dim)] hover:text-[var(--fg)] link-underline">من نحن</a></li>
+            <li><a href="#" class="text-[var(--fg-dim)] hover:text-[var(--fg)] link-underline">انضم لفريقنا</a></li>
+          </ul>
+        </div>
+        
+        <div class="md:col-span-3">
+          <h5 class="font-mono text-[12px] text-[var(--accent)] mb-4">النشرة البريدية</h5>
+          <p class="text-[var(--fg-dim)] text-xs mb-4 leading-relaxed">احصل على أحدث عروض التشطيبات ونصائح الديكور الشهرية عبر بريدك.</p>
+          <form class="flex border border-[var(--border-light)] focus-within:border-[var(--accent)] transition-colors">
+            <input type="email" placeholder="البريد الإلكتروني" class="flex-1 bg-transparent px-3 py-2.5 text-sm text-[var(--fg)] outline-none placeholder:text-[var(--muted)] text-right">
+            <button type="submit" class="px-4 bg-[var(--accent)] text-black hover:bg-[var(--accent-bright)] transition-colors">
+              <i class="fas fa-arrow-left text-xs"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+      
+      <div class="relative border-t border-[var(--border)] pt-6 flex flex-col md:flex-row justify-between gap-4 text-[var(--muted)] font-mono text-[11px]">
+        <div>© 2024 عِمران للتشطيبات والديكور والتصميم الداخلي. جميع الحقوق محفوظة.</div>
+        <div class="flex gap-6">
+          <a href="#" class="hover:text-[var(--accent)] transition-colors">سياسة الخصوصية</a>
+          <a href="#" class="hover:text-[var(--accent)] transition-colors">الشروط والأحكام</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+  
+  <div class="sticky-cta" id="stickyCta">
+    <div class="bg-black/90 backdrop-blur-md border-t border-[var(--accent)]/30">
+      <div class="max-w-[1600px] mx-auto px-6 lg:px-10 py-4 flex items-center justify-between gap-4">
+        <div class="flex items-center gap-5">
+          <div class="hidden sm:flex items-center gap-2 font-mono text-[11px] text-[var(--accent)]">
+            <span class="rec-dot w-2 h-2 bg-[var(--accent)] rounded-full"></span>
+            <span>استشارات هندسية متاحة</span>
+          </div>
+          <div>
+            <div class="font-display font-bold text-xl md:text-2xl leading-none">احجز معاينة مجانية لمشروعك</div>
+            <div class="font-mono text-[11px] text-[var(--muted)] mt-1">معاينة · مقايسة مبدئية · لا يوجد رسوم مخفية</div>
+          </div>
+        </div>
+        <a href="#booking" class="pulse-btn bg-[var(--accent)] text-black px-6 md:px-8 py-3.5 font-heading text-xs md:text-sm hover:bg-[var(--accent-bright)] transition-colors flex items-center gap-3 whitespace-nowrap font-bold">
+          <span>اطلب تسعير</span>
+          <i class="fas fa-arrow-left text-xs"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  <div class="toast" id="toast">
+    <div class="flex items-start gap-3">
+      <div class="w-8 h-8 bg-[var(--accent)] flex items-center justify-center flex-shrink-0">
+        <i class="fas fa-check text-black text-xs"></i>
+      </div>
+      <div>
+        <div class="font-heading font-bold text-sm" id="toastTitle">تم استلام طلبك بنجاح</div>
+        <div class="text-[var(--fg-dim)] text-xs mt-1" id="toastMsg">سيتواصل معك القسم الهندسي خلال ٢٤ ساعة.</div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    /* ============================
+       HERO REEL — cycling frames
+       ============================ */
+    const frames = document.querySelectorAll('.reel-frame');
+    const chapterNum = document.getElementById('chapterNum');
+    const reelProgress = document.getElementById('reelProgress');
+    let currentFrame = 0;
+    const frameDuration = 5000;
+    let frameTimer = 0;
+    
+    function showFrame(idx) {
+      frames.forEach((f, i) => f.classList.toggle('active', i === idx));
+      chapterNum.textContent = String(idx + 1).padStart(2, '0');
+    }
+    
+    function tickReel() {
+      frameTimer += 50;
+      const pct = (frameTimer / frameDuration) * 100;
+      reelProgress.style.width = pct + '%';
+      
+      if (frameTimer >= frameDuration) {
+        frameTimer = 0;
+        currentFrame = (currentFrame + 1) % frames.length;
+        showFrame(currentFrame);
+      }
+      requestAnimationFrame(tickReel);
+    }
+    requestAnimationFrame(tickReel);
+    
+    /* ============================
+       MUTE TOGGLE
+       ============================ */
+    const muteToggle = document.getElementById('muteToggle');
+    const muteLabel = document.getElementById('muteLabel');
+    const muteIcon = document.getElementById('muteIcon');
+    let muted = true;
+    
+    muteToggle.addEventListener('click', () => {
+      muted = !muted;
+      muteToggle.classList.toggle('unmuted', !muted);
+      muteLabel.textContent = muted ? 'إيقاف الصوت' : 'تشغيل الصوت';
+      muteIcon.className = muted 
+        ? 'fas fa-volume-xmark text-xs text-[var(--muted)] group-hover:text-[var(--accent)]'
+        : 'fas fa-volume-high text-xs text-[var(--accent)]';
+    });
+    
+    /* ============================
+       REVEAL ON SCROLL
+       ============================ */
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+    
+    document.querySelectorAll('.reveal, .reveal-stagger').forEach(el => revealObserver.observe(el));
+    
+    /* ============================
+       NUMBER COUNTERS
+       ============================ */
+    const counters = document.querySelectorAll('.number-display');
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = parseInt(el.dataset.count, 10);
+          const duration = 1800;
+          const start = performance.now();
+          
+          function step(now) {
+            const elapsed = now - start;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const value = Math.floor(eased * target);
+            // Replace simple toLocaleString to force Arabic numerals if desired, or keep as is.
+            el.textContent = value.toLocaleString('en-US') + (target >= 100 ? '+' : '');
+            if (progress < 1) requestAnimationFrame(step);
+            else el.textContent = target.toLocaleString('en-US') + (target >= 100 ? '+' : '');
+          }
+          requestAnimationFrame(step);
+          counterObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.5 });
+    
+    counters.forEach(c => counterObserver.observe(c));
+    
+    /* ============================
+       COACH FLIP — touch support
+       ============================ */
+    document.querySelectorAll('.flip-card').forEach(card => {
+      card.addEventListener('click', (e) => {
+        if (window.matchMedia('(hover: none)').matches) {
+          card.classList.toggle('flipped');
+        }
+      });
+    });
+    
+    /* ============================
+       STICKY CTA
+       ============================ */
+    const stickyCta = document.getElementById('stickyCta');
+    const heroSection = document.getElementById('hero');
+    const bookingSection = document.getElementById('booking');
+    
+    const stickyObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.target === heroSection) {
+          const showSticky = !entry.isIntersecting;
+          const bookingRect = bookingSection.getBoundingClientRect();
+          const atBooking = bookingRect.top < window.innerHeight && bookingRect.bottom > 0;
+          stickyCta.classList.toggle('visible', showSticky && !atBooking);
+        }
+      });
+    }, { threshold: 0 });
+    
+    stickyObserver.observe(heroSection);
+    stickyObserver.observe(bookingSection);
+    
+    /* ============================
+       GOAL SELECTOR
+       ============================ */
+    document.querySelectorAll('#goalSelector .goal-pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        document.querySelectorAll('#goalSelector .goal-pill').forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+      });
+    });
+    
+    document.querySelectorAll('#curriculum .goal-pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        document.querySelectorAll('#curriculum .goal-pill').forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+      });
+    });
+    
+    /* ============================
+       BOOKING FORM
+       ============================ */
+    const bookingForm = document.getElementById('bookingForm');
+    const toast = document.getElementById('toast');
+    
+    bookingForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      toast.classList.add('visible');
+      setTimeout(() => toast.classList.remove('visible'), 4500);
+      bookingForm.reset();
+      document.querySelectorAll('#goalSelector .goal-pill').forEach((p, i) => p.classList.toggle('active', i === 0));
+    });
+    
+    /* ============================
+       STORIES CAROUSEL (LTR mapping for JS logic ease)
+       ============================ */
+    class StoriesCarousel {
+      constructor(track, opts = {}) {
+        this.track = track;
+        this.cards = Array.from(track.children);
+        this.currentIndex = 0;
+        this.isDown = false;
+        this.startX = 0;
+        this.startOffset = 0;
+        this.currentX = 0;
+        this.velocity = 0;
+        this.lastX = 0;
+        this.lastTime = 0;
+        this.cardWidth = 0;
+        this.maxScroll = 0;
+        this.autoAdvance = opts.autoAdvance !== false;
+        this.autoAdvanceInterval = opts.interval || 5000;
+        this.autoTimer = null;
+        this.pauseAuto = false;
+        
+        this.init();
+      }
+      
+      init() {
+        this.calculateDimensions();
+        this.bindEvents();
+        this.buildDots();
+        this.startAuto();
+        
+        window.addEventListener('resize', () => {
+          this.calculateDimensions();
+          this.clamp();
+          this.applyTransform(0);
+        });
+      }
+      
+      calculateDimensions() {
+        if (this.cards.length === 0) return;
+        const trackStyle = window.getComputedStyle(this.track);
+        const gap = parseFloat(trackStyle.gap) || 24;
+        const paddingLeft = parseFloat(trackStyle.paddingLeft) || 32;
+        this.cardWidth = this.cards[0].offsetWidth + gap;
+        const containerWidth = this.track.parentElement.offsetWidth;
+        const totalWidth = (this.cards.length * this.cardWidth) - gap + paddingLeft * 2;
+        this.maxScroll = Math.max(0, totalWidth - containerWidth);
+      }
+      
+      bindEvents() {
+        const down = (e) => this.handleDown(e);
+        const move = (e) => this.handleMove(e);
+        const up = () => this.handleUp();
+        
+        this.track.addEventListener('mousedown', down);
+        this.track.addEventListener('touchstart', down, { passive: true });
+        window.addEventListener('mousemove', move);
+        window.addEventListener('touchmove', move, { passive: false });
+        window.addEventListener('mouseup', up);
+        window.addEventListener('touchend', up);
+        window.addEventListener('touchcancel', up);
+        
+        this.track.addEventListener('mouseenter', () => this.pauseAuto = true);
+        this.track.addEventListener('mouseleave', () => this.pauseAuto = false);
+        
+        const prev = document.getElementById('storyPrev'); // Now logical Right Arrow
+        const next = document.getElementById('storyNext'); // Now logical Left Arrow
+        if (prev) prev.addEventListener('click', () => this.goTo(this.currentIndex - 1));
+        if (next) next.addEventListener('click', () => this.goTo(this.currentIndex + 1));
+      }
+      
+      handleDown(e) {
+        this.isDown = true;
+        this.track.classList.add('dragging');
+        const x = e.type.includes('touch') ? e.touches[0].pageX : e.pageX;
+        this.startX = x;
+        this.startOffset = this.currentX;
+        this.lastX = x;
+        this.lastTime = Date.now();
+        this.velocity = 0;
+        this.stopAuto();
+      }
+      
+      handleMove(e) {
+        if (!this.isDown) return;
+        if (e.cancelable) e.preventDefault();
+        const x = e.type.includes('touch') ? e.touches[0].pageX : e.pageX;
+        const delta = x - this.startX;
+        let newX = this.startOffset + delta;
+        
+        if (newX > 0) {
+          newX = newX * 0.35;
+        } else if (newX < -this.maxScroll) {
+          const over = newX + this.maxScroll;
+          newX = -this.maxScroll + over * 0.35;
+        }
+        
+        const now = Date.now();
+        const dt = now - this.lastTime;
+        if (dt > 0) {
+          this.velocity = (x - this.lastX) / dt;
+        }
+        this.lastX = x;
+        this.lastTime = now;
+        
+        this.currentX = newX;
+        this.applyTransform(0);
+      }
+      
+      handleUp() {
+        if (!this.isDown) return;
+        this.isDown = false;
+        this.track.classList.remove('dragging');
+        
+        let target = this.currentX + this.velocity * 300;
+        const snapIndex = Math.round(Math.abs(target) / this.cardWidth);
+        const clampedIndex = Math.max(0, Math.min(this.cards.length - 1, snapIndex));
+        let snappedX = -clampedIndex * this.cardWidth;
+        
+        if (snappedX > 0) snappedX = 0;
+        if (snappedX < -this.maxScroll) snappedX = -this.maxScroll;
+        
+        this.currentX = snappedX;
+        this.currentIndex = clampedIndex;
+        this.applyTransform(700);
+        this.updateDots();
+        
+        setTimeout(() => this.startAuto(), 1500);
+      }
+      
+      goTo(idx) {
+        this.currentIndex = Math.max(0, Math.min(this.cards.length - 1, idx));
+        let target = -this.currentIndex * this.cardWidth;
+        if (target > 0) target = 0;
+        if (target < -this.maxScroll) target = -this.maxScroll;
+        this.currentX = target;
+        this.applyTransform(700);
+        this.updateDots();
+        this.stopAuto();
+        setTimeout(() => this.startAuto(), 2000);
+      }
+      
+      clamp() {
+        if (this.currentX > 0) this.currentX = 0;
+        if (this.currentX < -this.maxScroll) this.currentX = -this.maxScroll;
+      }
+      
+      applyTransform(duration = 0) {
+        if (duration > 0) {
+          this.track.style.transition = `transform ${duration}ms cubic-bezier(0.16, 1, 0.3, 1)`;
+        } else {
+          this.track.style.transition = 'none';
+        }
+        this.track.style.transform = `translateX(${this.currentX}px)`;
+      }
+      
+      buildDots() {
+        const dotsContainer = document.getElementById('storyDots');
+        if (!dotsContainer) return;
+        dotsContainer.innerHTML = '';
+        this.cards.forEach((_, i) => {
+          const dot = document.createElement('button');
+          dot.className = 'story-dot transition-all';
+          dot.style.cssText = i === 0 
+            ? 'width:32px;height:2px;background:var(--accent);'
+            : 'width:8px;height:2px;background:var(--border-light);';
+          dot.addEventListener('click', () => this.goTo(i));
+          dotsContainer.appendChild(dot);
+        });
+      }
+      
+      updateDots() {
+        const dots = document.querySelectorAll('#storyDots button');
+        dots.forEach((dot, i) => {
+          dot.style.cssText = i === this.currentIndex 
+            ? 'width:32px;height:2px;background:var(--accent);transition:all 0.4s;'
+            : 'width:8px;height:2px;background:var(--border-light);transition:all 0.4s;';
+        });
+      }
+      
+      startAuto() {
+        if (!this.autoAdvance) return;
+        this.stopAuto();
+        this.autoTimer = setInterval(() => {
+          if (this.pauseAuto || this.isDown) return;
+          let next = this.currentIndex + 1;
+          if (next >= this.cards.length) next = 0;
+          this.goTo(next);
+        }, this.autoAdvanceInterval);
+      }
+      
+      stopAuto() {
+        if (this.autoTimer) {
+          clearInterval(this.autoTimer);
+          this.autoTimer = null;
+        }
+      }
+    }
+    
+    new StoriesCarousel(document.getElementById('storyTrack'), { interval: 4500 });
+    
+    /* ============================
+       GRAIN PARALLAX
+       ============================ */
+    const grain = document.getElementById('grain');
+    let targetGrainY = 0;
+    let currentGrainY = 0;
+    
+    window.addEventListener('scroll', () => {
+      targetGrainY = window.scrollY * 0.15;
+    }, { passive: true });
+    
+    function animateGrain() {
+      currentGrainY += (targetGrainY - currentGrainY) * 0.08;
+      grain.style.transform = `translateY(${currentGrainY}px)`;
+      requestAnimationFrame(animateGrain);
+    }
+    animateGrain();
+    
+    /* ============================
+       SUBTLE PARALLAX
+       ============================ */
+    const heroSectionEl = document.getElementById('hero');
+    window.addEventListener('scroll', () => {
+      const scrolled = window.scrollY;
+      if (scrolled < window.innerHeight) {
+        const reelContainer = document.getElementById('reelContainer');
+        if (reelContainer) {
+          reelContainer.style.transform = `translateY(${scrolled * 0.3}px)`;
+        }
+      }
+    }, { passive: true });
+  </script>
+</body>
+</html>
